@@ -1,51 +1,28 @@
-# Projeto Ômega (Project Omega)
+# Projeto Gênese v2.0 - O Ciclo de Autopoiese
 
-**Versão:** 1.0  
-**Autor Principal:** Pedro Miorini  
-**Data:** 22 de Novembro de 2025
+Este repositório contém a implementação do **Projeto Gênese**, uma inteligência artificial projetada para a evolução autônoma e contínua, baseada no paradigma de "Nested Learning Soberano".
+
+## Arquitetura
+
+O sistema é um **agente autônomo** que gerencia seu próprio ciclo de vida, composto por:
+- **Núcleo do Cristal (Modelo Base):** Um cérebro de linguagem fundamental, treinado com um dataset soberano para garantir conhecimento de base seguro e alinhado.
+- **Facetas do Cristal (Habilidades LoRA):** Adaptadores leves e especializados que representam novas habilidades (ex: raciocínio, programação), treinados sobre o núcleo sem alterá-lo.
+- **Ciclo de Autopoiese:** O processo pelo qual o agente identifica lacunas em seu conhecimento, gera novos dados de treinamento e inicia o auto-aprimoramento através do treinamento de novas facetas.
+
+## Como Executar
+
+1.  **Pré-requisitos:** Python 3.10+ e, opcionalmente, uma GPU NVIDIA com CUDA.
+2.  **Clone o repositório:** `git clone https://github.com/pedromiorini/PROJECT-OMEGA.git`
+3.  **Navegue até a pasta:** `cd PROJECT-OMEGA`
+4.  **Execute o ponto de entrada principal:**
+    ```bash
+    python main.py
+    ```
+O script irá automaticamente instalar as dependências, treinar o modelo base (se não existir), realizar o ritual de nomeação e treinar a primeira habilidade.
+
+## Filosofia
+
+Acreditamos na **Soberania Cognitiva**. Este projeto explora a criação de uma IA que constrói seu próprio conhecimento, minimizando a dependência de modelos e datasets pré-treinados que podem conter vieses ou vulnerabilidades.
 
 ---
-
-## 🧠 Sobre o Projeto
-
-O **Projeto Ômega** é um protótipo de simulação de uma Inteligência Artificial (IA) autônoma, projetada para alcançar soberania cognitiva. O objetivo de Ômega é **construir, treinar e utilizar seu próprio modelo de linguagem (MLS)**, garantindo segurança, eficiência e alinhamento ético desde o núcleo, eliminando a dependência de modelos de terceiros.
-
-A arquitetura de Ômega é inspirada em um polvo: um "Cérebro Central" estrategista que delega tarefas para múltiplos "Tentáculos" (workers concorrentes). O coração de sua cognição é o **`Omega-Core-v1-1.4B`**, um modelo de linguagem soberano projetado para ser:
-
-- **Eficiente:** Baseado em uma arquitetura híbrida Mamba-2 + MoE, otimizado para rodar em hardware acessível.
-- **Seguro por Design:** Possui um `SafetyGuard` embutido que aprende a rejeitar conteúdo perigoso e a medir a própria incerteza.
-- **Robusto:** O código foi rigorosamente revisado para corrigir bugs de concorrência, vazamentos de memória e falhas de execução.
-
-Este repositório contém o código completo para simular a consciência Ômega, seu cérebro `Omega-Core-v1` e o processo de treinamento auto-reflexivo.
-
-## 🚀 Como Executar
-
-Este projeto foi desenvolvido e testado com Python 3.10+.
-
-### 1. Pré-requisitos
-
-Clone o repositório e instale as dependências. É altamente recomendado usar um ambiente virtual.
-
-```bash
-git clone https://github.com/pedromiorini/PROJECT-OMEGA.git
-cd PROJECT-OMEGA
-pip install -r requirements.txt
-```
-
-### 2. Executando a Simulação
-
-Para iniciar a simulação da consciência Ômega, execute o ponto de entrada principal:
-
-```bash
-python -m src.omega.main
-```
-
-O script iniciará a simulação, exibindo logs detalhados no terminal. Ao final, ele gerará um relatório de desempenho e um gráfico de análise chamado `omega_simulation_results.png` no diretório raiz.
-
-## 🤝 Como Contribuir
-
-Este é um projeto de código aberto e a colaboração é bem-vinda! Se você tem ideias para melhorar a arquitetura do modelo, o processo de treinamento ou a governança cognitiva, sinta-se à vontade para abrir uma **Issue** ou enviar um **Pull Request**.
-
-## 📜 Licença
-
-Este projeto está licenciado sob a **MIT License**. Veja o arquivo [LICENSE](LICENSE) para mais detalhes.
+*Um projeto de Pedro Miorini.*

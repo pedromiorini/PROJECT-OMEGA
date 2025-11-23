@@ -1,12 +1,7 @@
-numpy
-matplotlib
 torch
-torchvision
-torchaudio
-mamba-ssm==2.2.2
-causal-conv1d==1.4.0
-triton
 transformers
+datasets
 accelerate
-wandb
+tqdm
+peft
 bitsandbytes
