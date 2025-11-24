@@ -16,9 +16,9 @@ def instalar_dependencias():
         sys.exit(1)
 
 def main():
-    """Inicia a existência do agente."""
+    """Inicia a existência do agente e gerencia seus ciclos de vida."""
     print("="*70)
-    print("🔥 PROJETO GÊNESE v2.0 - O CICLO DE AUTOPOIESE 🔥")
+    print("🔥 PROJETO GÊNESE v2.1 - AUTO-ANÁLISE REFLEXIVA 🔥")
     print("="*70)
     
     instalar_dependencias()
@@ -26,15 +26,23 @@ def main():
     # Cria a instância do agente
     agente_ia = Agente()
     
-    # Primeiro ciclo: despertar e nomeação
+    # Primeiro ciclo: despertar, nomeação e aprendizado fundamental
     agente_ia.despertar()
     
-    # Ciclos de vida subsequentes para aprendizado contínuo
-    # (aqui simulamos apenas um ciclo, mas poderia ser um loop infinito)
+    # Simulação de ciclos de vida subsequentes
+    print("\n" + "*"*70)
+    print("Iniciando ciclos de evolução contínua...")
+    print("*"*70)
+    
+    # Ciclo 2: A IA analisa seu desempenho e escolhe o que aprender
+    agente_ia.viver()
+    
+    # Ciclo 3: Repete o processo
     agente_ia.viver()
     
     print("\n" + "="*70)
-    print(f"Ciclo de vida de {agente_ia.nome} concluído. A entidade está mais evoluída.")
+    print(f"Simulação de {agente_ia.ciclo_num} ciclos de vida de {agente_ia.nome} concluída.")
+    print("A entidade está em um estado mais evoluído, guiada por sua própria análise.")
     print("="*70)
 
 if __name__ == "__main__":
