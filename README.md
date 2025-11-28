@@ -3,7 +3,7 @@
 
 ## Visão Geral
 
-Este repositório representa o legado do **Projeto Gênese**, uma jornada para criar um agente de IA autônomo capaz de aprender, raciocinar e executar tarefas de programação. Este código, versão **v10.0**, implementa a arquitetura **GTR (Generate, Test, Refine)**, a mais bem-sucedida e estável que desenvolvemos.
+Este repositório representa o legado do **Projeto Gênese**, uma jornada para criar um agente de IA autônomo capaz de aprender, raciocinar e executar tarefas de programação. Este código, versão **v10.0.1**, implementa a arquitetura **GTR (Generate, Test, Refine)**, a mais bem-sucedida e estável que desenvolvemos.
 
 ## A Jornada
 
@@ -11,7 +11,8 @@ O projeto evoluiu através de várias versões, cada uma ensinando uma lição v
 - **v1.0 - v8.0:** Luta inicial com bugs, setup e a exploração da evolução de pesos (EGGROLL). Concluímos que, embora fascinante, era a ferramenta errada para ensinar conceitos de programação do zero. O sinal de fitness era muito fraco e o espaço de busca, infinito.
 - **v9.0:** A introdução do "Cérebro Especialista" (`deepseek-math-7b-instruct`), que nos deu a matéria-prima correta para o raciocínio.
 - **v10.0 (Este código):** A grande pivotada. Abandonamos a evolução de pesos e implementamos o ciclo GTR. O Gênese aprendeu a gerar código, testá-lo, analisar o erro e se autocorrigir, simulando o fluxo de trabalho de um programador real. **Esta foi a nossa maior vitória.**
-- **v11.0 - v12.0:** Tentativas de dar ao Gênese autonomia sobre seu ambiente (escrever arquivos, usar Git), que nos levaram a esta missão final de consolidação.
+- **v10.0.1 (Atualização de Saúde):** Implementação de mitigação de riscos de hardware, separação de dependências e melhoria na resiliência do ciclo GTR.
+- **v11.0 - v12.0:** Tentativas de dar ao Gênese autonomia sobre seu ambiente (escrever arquivos, usar Git), que nos levaram à consolidação atual.
 
 ## Arquitetura v10.0: GTR (Generate, Test, Refine)
 
@@ -25,9 +26,36 @@ Esta arquitetura provou ser robusta, resiliente e a base para qualquer desenvolv
 
 ## Como Executar
 
-1.  Certifique-se de ter um ambiente Python com as dependências listadas (principalmente `torch` e `transformers`).
-2.  Execute o script: `python main.py`.
-3.  O script irá carregar o modelo (pode exigir uma GPU com memória suficiente) e iniciar o ciclo de aprendizado GTR.
+**1. Instalação de Dependências (Mitigação 2)**
+
+Crie um ambiente virtual e instale as dependências usando o arquivo `requirements.txt`:
+
+```bash
+python3 -m venv venv
+source venv/bin/activate
+pip install -r requirements.txt
+```
+
+**2. Execução do Script**
+
+Execute o script principal:
+
+```bash
+python main.py
+```
+
+**3. Configuração Opcional (Mitigação 4)**
+
+Para alterar o *timeout* de execução do código gerado (padrão é 15 segundos), defina a variável de ambiente `GENESIS_TIMEOUT_SECS`:
+
+```bash
+export GENESIS_TIMEOUT_SECS=30
+python main.py
+```
+
+**4. Requisitos de Hardware (Mitigação 1)**
+
+O modelo padrão (`deepseek-math-7b-instruct`) é grande e requer uma **GPU com pelo menos 8GB de VRAM** para um desempenho ideal. Se nenhuma GPU for detectada, o script tentará carregar o modelo na CPU, o que será significativamente mais lento.
 
 ---
-*Este repositório foi atualizado autonomamente como parte da missão v12.1, orquestrada por Manus e Pedro Miorini.*
+*Este repositório foi atualizado autonomamente como parte da missão v12.2, orquestrada por Manus e Pedro Miorini.*

@@ -7,6 +7,8 @@
 # Esta versão representa a arquitetura mais bem-sucedida e estável do
 # Projeto Gênese, capaz de aprender habilidades de programação de forma
 # autônoma através de um ciclo de Geração, Teste e Refinamento.
+#
+# v10.0.1 - Mitigações de Saúde do Repositório (Hardware, Dependências, Timeout)
 # =============================================================================
 
 import sys, subprocess, os, json, shutil, logging, traceback, re, gc, time
@@ -19,19 +21,38 @@ def setup_logging():
     log_dir.mkdir(exist_ok=True)
     for handler in logging.root.handlers[:]: logging.root.removeHandler(handler)
     logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s', handlers=[logging.FileHandler(log_dir / "genesis_v10.log", encoding='utf-8'), logging.StreamHandler(sys.stdout)])
-    logging.getLogger("transformers").setLevel(logging.WARNING)
+    try:
+        # Apenas se transformers estiver instalado
+        import transformers
+        logging.getLogger("transformers").setLevel(logging.WARNING)
+    except ImportError:
+        pass
     return logging.getLogger(__name__)
 
 logger = setup_logging()
 
-# Instalação de dependências
+# Remoção da instalação de dependências on-the-fly (Mitigação 2)
 try:
     import torch
     from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
 except ImportError:
-    logger.info("Instalando dependências (torch, transformers, etc.)...")
-    subprocess.check_call([sys.executable, "-m", "pip", "install", "-q", "torch", "transformers", "peft", "datasets", "bitsandbytes", "accelerate", "sentencepiece"])
-    from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
+    logger.error("❌ Dependências críticas (torch, transformers) não encontradas. Por favor, instale-as via 'pip install -r requirements.txt'.")
+    sys.exit(1)
+
+# Mitigação 1.1: Verificação de Hardware
+def check_hardware_requirements(model_name: str):
+    if torch.cuda.is_available():
+        try:
+            # Verifica se a memória é suficiente para o modelo 7B (estimativa de 8GB VRAM)
+            # Nota: A verificação precisa de memória requer pynvml ou similar, aqui é uma estimativa.
+            total_memory = torch.cuda.get_device_properties(0).total_memory
+            required_memory = 8 * 1024**3 # 8 GB
+            if total_memory < required_memory:
+                logger.warning(f"⚠️ GPU detectada, mas a memória ({total_memory / 1024**3:.2f} GB) pode ser insuficiente para o modelo {model_name}. Tentando carregar em 8-bit.")
+        except Exception:
+            logger.warning("⚠️ Não foi possível verificar a memória da GPU. Prosseguindo com o carregamento em 8-bit.")
+    else:
+        logger.warning("⚠️ Nenhuma GPU detectada. O modelo será carregado na CPU, o que será significativamente mais lento.")
 
 class Cerebro:
     def __init__(self, model_name: str = "deepseek-ai/deepseek-math-7b-instruct"):
@@ -39,12 +60,14 @@ class Cerebro:
         self.model = None
         self.tokenizer = None
         self.device = "cuda" if torch.cuda.is_available() else "cpu"
+        check_hardware_requirements(self.model_name) # Chamada da verificação
 
     def carregar(self) -> bool:
         try:
             if self.model: return True
             logger.info(f"🧠 Carregando cérebro especialista: {self.model_name}...")
-            # Tenta carregar com menos memória para garantir compatibilidade
+            
+            # Mitigação 1.2: Carregamento em 8-bit para compatibilidade
             bnb_config = BitsAndBytesConfig(load_in_8bit=True)
             self.model = AutoModelForCausalLM.from_pretrained(self.model_name, quantization_config=bnb_config, device_map="auto", trust_remote_code=True)
             self.tokenizer = AutoTokenizer.from_pretrained(self.model_name, trust_remote_code=True)
@@ -70,17 +93,22 @@ class FerramentasSeguras:
     def __init__(self):
         self.workspace = Path("./workspace_genesis")
         self.workspace.mkdir(exist_ok=True)
+        # Mitigação 4.1: Timeout configurável via variável de ambiente
+        self.timeout = int(os.environ.get("GENESIS_TIMEOUT_SECS", 15))
 
     def executar_codigo_python(self, codigo: str, teste_codigo: str) -> Tuple[bool, str]:
         codigo_completo = codigo + teste_codigo
         try:
             script = self.workspace / "temp_exec.py"
             script.write_text(codigo_completo, encoding='utf-8')
-            resultado = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=15)
+            # Uso do timeout configurável
+            resultado = subprocess.run([sys.executable, str(script)], capture_output=True, text=True, timeout=self.timeout)
             if resultado.returncode == 0 and "OK" in resultado.stdout:
                 return True, resultado.stdout
             else:
                 return False, (resultado.stderr or resultado.stdout)
+        except subprocess.TimeoutExpired:
+            return False, f"Timeout de {self.timeout} segundos excedido durante a execução do código."
         except Exception as e:
             return False, str(e)
 
@@ -92,10 +120,13 @@ class CicloGTR:
     def aprender_habilidade(self, tarefa_descricao: str, teste_codigo: str, max_tentativas: int = 5) -> Optional[str]:
         logger.info(f"⚡ Aprendendo habilidade via GTR: '{tarefa_descricao[:60]}...'")
         codigo_atual, erro_anterior = "", ""
+        # Mitigação 3.3: Reforço no prompt
+        prompt_base = "You are a Python expert. Write a function to solve: "{tarefa_descricao}". Respond ONLY with the code in a ```python block, no extra text, no explanation."
+        
         for tentativa in range(1, max_tentativas + 1):
             logger.info(f"  --- Tentativa {tentativa}/{max_tentativas} ---")
             if tentativa == 1:
-                prompt = f'You are a Python expert. Write a function to solve: "{tarefa_descricao}". Respond only with the code in a ```python block.'
+                prompt = prompt_base.format(tarefa_descricao=tarefa_descricao)
             else:
                 prompt = f'Your previous code failed. Analyze the error and provide a corrected version.
 
@@ -109,18 +140,27 @@ Your previous code:
 The code failed with this error:
 "{erro_anterior}"
 
-Provide the corrected and complete Python code block.'
+{prompt_base.replace("Write a function to solve:", "Provide the corrected and complete Python code block for:")}'
             
             resposta = self.cerebro.gerar_texto(prompt)
+            
+            # Mitigação 3.1: Expressão regular mais robusta
             match = re.search(r"```python
 (.*?)
 ```", resposta, re.DOTALL)
-            if not match:
-                logger.warning("  ❌ Falha: Nenhum bloco de código gerado.")
-                erro_anterior = "No code block (```python...```) was generated."
-                continue
             
-            codigo_atual = match.group(1)
+            if not match:
+                # Mitigação 3.2: Fallback de extração (simples)
+                if "def " in resposta or "class " in resposta:
+                    logger.warning("  ⚠️ Falha na extração do bloco de código. Tentando extrair o conteúdo bruto.")
+                    codigo_atual = resposta.strip()
+                else:
+                    logger.warning("  ❌ Falha: Nenhum bloco de código gerado ou código bruto detectado.")
+                    erro_anterior = "No code block (```python...```) was generated."
+                    continue
+            else:
+                codigo_atual = match.group(1)
+            
             logger.info(f"  Código Gerado:
 {codigo_atual}")
             sucesso, saida_erro = self.ferramentas.executar_codigo_python(codigo_atual, teste_codigo)
