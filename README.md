@@ -3,7 +3,7 @@
 
 ## Visão Geral
 
-Este repositório representa o legado do **Projeto Gênese**, uma jornada para criar um agente de IA autônomo capaz de aprender, raciocinar e executar tarefas de programação. Este código, versão **v10.0.1**, implementa a arquitetura **GTR (Generate, Test, Refine)**, a mais bem-sucedida e estável que desenvolvemos.
+Este repositório representa o legado do **Projeto Gênese**, uma jornada para criar um agente de IA autônomo capaz de aprender, raciocinar e executar tarefas de programação. Este código, versão **v12.2**, implementa a arquitetura **GTR (Generate, Test, Refine)**, a mais bem-sucedida e estável que desenvolvemos, agora com **Autonomia de Ambiente (Escrita de Arquivos e Git)**.
 
 ## A Jornada
 
@@ -12,7 +12,8 @@ O projeto evoluiu através de várias versões, cada uma ensinando uma lição v
 - **v9.0:** A introdução do "Cérebro Especialista" (`deepseek-math-7b-instruct`), que nos deu a matéria-prima correta para o raciocínio.
 - **v10.0 (Este código):** A grande pivotada. Abandonamos a evolução de pesos e implementamos o ciclo GTR. O Gênese aprendeu a gerar código, testá-lo, analisar o erro e se autocorrigir, simulando o fluxo de trabalho de um programador real. **Esta foi a nossa maior vitória.**
 - **v10.0.1 (Atualização de Saúde):** Implementação de mitigação de riscos de hardware, separação de dependências e melhoria na resiliência do ciclo GTR.
-- **v11.0 - v12.0:** Tentativas de dar ao Gênese autonomia sobre seu ambiente (escrever arquivos, usar Git), que nos levaram à consolidação atual.
+- **v11.0 - v12.0:** Tentativas de dar ao Gênese autonomia sobre seu ambiente (escrever arquivos, usar Git).
+- **v12.2 (Atualização de Autonomia):** Consolidação das ferramentas de autonomia de ambiente (`escrever_arquivo` e `executar_git`) na classe `FerramentasSeguras`, permitindo que o Gênese interaja com o sistema de arquivos e o controle de versão.
 
 ## Arquitetura v10.0: GTR (Generate, Test, Refine)
 
@@ -59,3 +60,12 @@ O modelo padrão (`deepseek-math-7b-instruct`) é grande e requer uma **GPU com 
 
 ---
 *Este repositório foi atualizado autonomamente como parte da missão v12.2, orquestrada por Manus e Pedro Miorini.*
+
+## Ferramentas de Autonomia (v12.2)
+
+A classe `FerramentasSeguras` foi estendida para incluir as seguintes capacidades, que permitem ao Gênese interagir com o ambiente de forma controlada:
+
+| Ferramenta | Descrição | Uso |
+| :--- | :--- | :--- |
+| `escrever_arquivo(caminho, conteudo)` | Escreve o `conteudo` em um arquivo no `workspace_genesis`. | Permite a criação de relatórios, scripts e outros artefatos. |
+| `executar_git(comando)` | Executa um comando Git (ex: `add .`, `commit -m "..."`) no diretório raiz do projeto. | Permite que o Gênese versionar seu próprio trabalho. |
