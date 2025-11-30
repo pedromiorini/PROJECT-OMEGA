@@ -1,7 +1,1 @@
-torch
-transformers
-datasets
-accelerate
-tqdm
-peft
-bitsandbytes
+psutil

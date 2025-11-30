@@ -1,71 +1,68 @@
+# Projeto Ômega v20.1 - O Agente Crítico Aprimorado
 
-# PROJECT OMEGA (Gênese)
+**Um sistema de Inteligência Artificial que se auto-otimiza, projetado para resiliência, aprendizado contínuo e evolução mensurável, agora consolidado em uma arquitetura monolítica robusta.**
 
-## Visão Geral
-
-Este repositório representa o legado do **Projeto Gênese**, uma jornada para criar um agente de IA autônomo capaz de aprender, raciocinar e executar tarefas de programação. Este código, versão **v12.2**, implementa a arquitetura **GTR (Generate, Test, Refine)**, a mais bem-sucedida e estável que desenvolvemos, agora com **Autonomia de Ambiente (Escrita de Arquivos e Git)**.
-
-## A Jornada
-
-O projeto evoluiu através de várias versões, cada uma ensinando uma lição valiosa:
-- **v1.0 - v8.0:** Luta inicial com bugs, setup e a exploração da evolução de pesos (EGGROLL). Concluímos que, embora fascinante, era a ferramenta errada para ensinar conceitos de programação do zero. O sinal de fitness era muito fraco e o espaço de busca, infinito.
-- **v9.0:** A introdução do "Cérebro Especialista" (`deepseek-math-7b-instruct`), que nos deu a matéria-prima correta para o raciocínio.
-- **v10.0 (Este código):** A grande pivotada. Abandonamos a evolução de pesos e implementamos o ciclo GTR. O Gênese aprendeu a gerar código, testá-lo, analisar o erro e se autocorrigir, simulando o fluxo de trabalho de um programador real. **Esta foi a nossa maior vitória.**
-- **v10.0.1 (Atualização de Saúde):** Implementação de mitigação de riscos de hardware, separação de dependências e melhoria na resiliência do ciclo GTR.
-- **v11.0 - v12.0:** Tentativas de dar ao Gênese autonomia sobre seu ambiente (escrever arquivos, usar Git).
-- **v12.2 (Atualização de Autonomia):** Consolidação das ferramentas de autonomia de ambiente (`escrever_arquivo` e `executar_git`) na classe `FerramentasSeguras`, permitindo que o Gênese interaja com o sistema de arquivos e o controle de versão.
-
-## Arquitetura v10.0: GTR (Generate, Test, Refine)
-
-O `main.py` neste repositório implementa um ciclo de aprendizado de habilidades em três fases:
-
-1.  **Geração:** O Cérebro Especialista recebe uma tarefa (ex: "Crie a função X") e gera uma primeira versão do código.
-2.  **Teste:** O sistema executa o código gerado contra uma unidade de teste.
-3.  **Refinamento:** Se o teste falhar, o sistema captura o `Traceback` do erro e o alimenta de volta ao Cérebro, instruindo-o a analisar o erro e gerar uma versão corrigida. O ciclo se repete até o sucesso.
-
-Esta arquitetura provou ser robusta, resiliente e a base para qualquer desenvolvimento futuro do Projeto Gênese.
-
-## Como Executar
-
-**1. Instalação de Dependências (Mitigação 2)**
-
-Crie um ambiente virtual e instale as dependências usando o arquivo `requirements.txt`:
-
-```bash
-python3 -m venv venv
-source venv/bin/activate
-pip install -r requirements.txt
-```
-
-**2. Execução do Script**
-
-Execute o script principal:
-
-```bash
-python main.py
-```
-
-**3. Configuração Opcional (Mitigação 4)**
-
-Para alterar o *timeout* de execução do código gerado (padrão é 15 segundos), defina a variável de ambiente `GENESIS_TIMEOUT_SECS`:
-
-```bash
-export GENESIS_TIMEOUT_SECS=30
-python main.py
-```
-
-**4. Requisitos de Hardware (Mitigação 1)**
-
-O modelo padrão (`deepseek-math-7b-instruct`) é grande e requer uma **GPU com pelo menos 8GB de VRAM** para um desempenho ideal. Se nenhuma GPU for detectada, o script tentará carregar o modelo na CPU, o que será significativamente mais lento.
+[![Status: Produção-Ready](https://img.shields.io/badge/status-production--ready-green.svg)](https://github.com/pedromiorini/PROJECT-OMEGA)
+[![Licença: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](https://opensource.org/licenses/MIT)
 
 ---
-*Este repositório foi atualizado autonomamente como parte da missão v12.2, orquestrada por Manus e Pedro Miorini.*
 
-## Ferramentas de Autonomia (v12.2)
+## 🧬 Visão Geral
 
-A classe `FerramentasSeguras` foi estendida para incluir as seguintes capacidades, que permitem ao Gênese interagir com o ambiente de forma controlada:
+O Projeto Ômega nasceu de uma pergunta fundamental: **"Pode uma IA não apenas resolver problemas, mas melhorar a si mesma de forma autônoma e segura?"**
 
-| Ferramenta | Descrição | Uso |
-| :--- | :--- | :--- |
-| `escrever_arquivo(caminho, conteudo)` | Escreve o `conteudo` em um arquivo no `workspace_genesis`. | Permite a criação de relatórios, scripts e outros artefatos. |
-| `executar_git(comando)` | Executa um comando Git (ex: `add .`, `commit -m "..."`) no diretório raiz do projeto. | Permite que o Gênese versionar seu próprio trabalho. |
+A v20.1, "O Agente Crítico Aprimorado", é a nossa resposta mais madura. Este não é apenas um Large Language Model (LLM) envolto em um script. É um **sistema operacional para a evolução da IA**, um agente que implementa um ciclo perpétuo de auto-análise, otimização e validação, tudo contido em um único e robusto arquivo `main.py`.
+
+O agente inicia com uma versão de si mesmo, mede sua performance (fitness) através de um rigoroso benchmark, gera uma nova versão "candidata" com melhorias, submete-a a uma verificação crítica interna e, se aprovada e provadamente superior, ela é promovida para se tornar a nova base para a próxima geração de evolução.
+
+## ✨ Inovações Arquiteturais da v20.1
+
+Esta versão representa a culminação de dezenas de iterações, aprendendo com cada falha para construir um sistema robusto e pronto para produção.
+
+-   **Ciclo GVT (Generate, Verify, Test):** Inspirado no DeepSeek-Math-V2, o agente agora possui um "crítico interno". Ele primeiro gera uma solução, depois a verifica em busca de falhas lógicas e, só então, a testa em benchmark, resultando em um código de maior qualidade.
+-   **Sandbox Multiplataforma:** Usa `multiprocessing` + `psutil` para isolar a execução de código candidato, impondo limites estritos de CPU, memória e timeout.
+-   **Persistência e Recuperação:** O estado da evolução (histórico, fitness) é salvo em JSON, permitindo que o agente retome seu trabalho após uma interrupção.
+-   **Sistema de Cache e Rollback:** Evita reavaliar soluções duplicadas e reverte para a última versão estável em caso de falha catastrófica.
+-   **Design Monolítico:** Toda a lógica está contida em `main.py`, eliminando erros de importação e simplificando a implantação e a introspecção pelo próprio agente.
+-   **CLI Profissional:** Uma interface de linha de comando completa (`run`, `analyze`, `clean`) com argumentos documentados para controle total do operador.
+
+## 🚀 Como Funciona: O Ciclo de Vida
+
+1.  **Introspecção:** O agente lê seu próprio código-fonte (`main.py`).
+2.  **Benchmark Base:** Mede o "fitness" (correção, velocidade, memória) da sua versão atual.
+3.  **Geração:** Envia seu código para um cérebro de IA (ex: Claude, GPT-4) para gerar uma versão otimizada.
+4.  **Verificação:** O código candidato é analisado por um "revisor de código" de IA em busca de falhas lógicas.
+5.  **Teste em Sandbox:** Se aprovado na verificação, o candidato é executado em um sandbox seguro e passa pelo mesmo benchmark rigoroso.
+6.  **Decisão de Promoção:** Se o fitness do candidato for significativamente maior, ele é "promovido" e se torna a nova versão ativa.
+7.  **Persistência:** O resultado da geração é salvo no histórico.
+8.  **Repetição:** O ciclo recomeça.
+
+## 🛠️ Uso
+
+### Pré-requisitos
+- Python 3.9+
+- `pip install -r requirements.txt`
+
+### Executando o Ciclo de Otimização
+Para iniciar o ciclo de vida do agente com 10 gerações:
+```bash
+python main.py run --geracoes 10
+```
+
+### Analisando os Resultados
+Para ver uma análise estatística da evolução a partir do arquivo `historico.json`:
+```bash
+python main.py analyze
+```
+
+## 📜 Nossa Jornada e Filosofia
+
+Este projeto é o resultado de uma longa jornada. Começamos com a "Evolução Cega" (EGGROLL), falhamos, aprendemos e pivotamos para o "Despertar" com a arquitetura GTR (Generate, Test, Refine). A v20.1 é a materialização dessa filosofia: a inteligência não emerge da aleatoriedade, mas de um ciclo disciplinado de **raciocínio, verificação, experimentação e correção**.
+
+## 🤝 Contribuições
+
+Este é um projeto vivo. Contribuições são bem-vindas. Sinta-se à vontade para abrir uma *issue* para discutir novas estratégias de otimização, melhorias no sandbox ou novas tarefas de benchmark.
+
+## 📄 Licença
+
+Este projeto é licenciado sob a Licença MIT. Veja o arquivo [LICENSE] para mais detalhes.

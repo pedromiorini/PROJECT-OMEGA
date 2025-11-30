@@ -1,13 +1,18 @@
 # Python
 __pycache__/
 *.pyc
-.env
+*.pyo
+*.pyd
+.Python
+env/
 venv/
+*.egg-info/
 
-# Resultados de Treinamento
-results-*/
-ia_core_base_final/
-adapters/
+# Logs e Workspaces
+omega_v20_workspace/
+*.log
+*.json
 
-# Arquivos de sistema
-.DS_Store
+# IDEs
+.vscode/
+.idea/
